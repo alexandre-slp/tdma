@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2a39695e-e106-454d-b550-f3c7b1f2862d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tdma.py" afterPath="$PROJECT_DIR$/tdma.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,8 +18,8 @@
       <file leaf-file-name="tdma.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tdma.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="639">
-              <caret line="139" column="12" lean-forward="true" selection-start-line="139" selection-start-column="12" selection-end-line="139" selection-end-column="12" />
+            <state relative-caret-position="214">
+              <caret line="122" column="21" lean-forward="false" selection-start-line="122" selection-start-column="21" selection-end-line="122" selection-end-column="21" />
               <folding>
                 <element signature="e#777#795#0" expanded="true" />
                 <element signature="e#895#2243#0" expanded="false" />
@@ -36,8 +37,20 @@
         <entry file="file://$PROJECT_DIR$/../relatorioTelefonia/relatorioTelefonia.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
-              <caret line="529" column="68" lean-forward="true" selection-start-line="529" selection-start-column="60" selection-end-line="529" selection-end-column="68" />
-              <folding />
+              <caret line="542" column="68" lean-forward="true" selection-start-line="542" selection-start-column="60" selection-end-line="542" selection-end-column="68" />
+              <folding>
+                <marker date="1498100007719" expanded="true" signature="20785:21057" ph="..." />
+                <marker date="1498100007719" expanded="true" signature="20814:21057" ph="..." />
+                <marker date="1498100007719" expanded="true" signature="21590:21864" ph="..." />
+                <marker date="1498100007719" expanded="true" signature="21619:21864" ph="..." />
+                <marker date="1498100007719" expanded="true" signature="22402:22676" ph="..." />
+                <marker date="1498100007719" expanded="true" signature="22431:22676" ph="..." />
+                <marker date="1498100007719" expanded="true" signature="23201:23477" ph="..." />
+                <marker date="1498100007719" expanded="true" signature="23230:23477" ph="..." />
+                <marker date="1498100007719" expanded="true" signature="24026:24306" ph="..." />
+                <marker date="1498100007719" expanded="true" signature="24055:24306" ph="..." />
+                <marker date="1498100007719" expanded="true" signature="24469:24493" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -112,6 +125,11 @@
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../relatorioTelefonia" />
+  </component>
+  <component name="Push.Settings">
+    <excluded-roots>
+      <path value="$PROJECT_DIR$/../relatorioTelefonia" />
+    </excluded-roots>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -265,7 +283,21 @@
       <option name="project" value="LOCAL" />
       <updated>1498099943328</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Feito o trabalho basta testar com a matriz 100x100">
+      <created>1498099991398</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1498099991398</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Feito o trabalho basta testar com a matriz 100x100">
+      <created>1498100039125</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1498100039125</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -287,7 +319,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33150986" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24485373" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24485373" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -306,7 +338,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="carregando os vetores A B C" />
-    <option name="LAST_COMMIT_MESSAGE" value="carregando os vetores A B C" />
+    <MESSAGE value="Feito o trabalho basta testar com a matriz 100x100" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feito o trabalho basta testar com a matriz 100x100" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -340,15 +373,27 @@
     <entry file="file://$PROJECT_DIR$/../relatorioTelefonia/relatorioTelefonia.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="529" column="68" lean-forward="true" selection-start-line="529" selection-start-column="60" selection-end-line="529" selection-end-column="68" />
-          <folding />
+          <caret line="542" column="68" lean-forward="true" selection-start-line="542" selection-start-column="60" selection-end-line="542" selection-end-column="68" />
+          <folding>
+            <marker date="1498100007719" expanded="true" signature="20785:21057" ph="..." />
+            <marker date="1498100007719" expanded="true" signature="20814:21057" ph="..." />
+            <marker date="1498100007719" expanded="true" signature="21590:21864" ph="..." />
+            <marker date="1498100007719" expanded="true" signature="21619:21864" ph="..." />
+            <marker date="1498100007719" expanded="true" signature="22402:22676" ph="..." />
+            <marker date="1498100007719" expanded="true" signature="22431:22676" ph="..." />
+            <marker date="1498100007719" expanded="true" signature="23201:23477" ph="..." />
+            <marker date="1498100007719" expanded="true" signature="23230:23477" ph="..." />
+            <marker date="1498100007719" expanded="true" signature="24026:24306" ph="..." />
+            <marker date="1498100007719" expanded="true" signature="24055:24306" ph="..." />
+            <marker date="1498100007719" expanded="true" signature="24469:24493" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tdma.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="639">
-          <caret line="139" column="12" lean-forward="true" selection-start-line="139" selection-start-column="12" selection-end-line="139" selection-end-column="12" />
+        <state relative-caret-position="214">
+          <caret line="122" column="21" lean-forward="false" selection-start-line="122" selection-start-column="21" selection-end-line="122" selection-end-column="21" />
           <folding>
             <element signature="e#777#795#0" expanded="true" />
             <element signature="e#895#2243#0" expanded="false" />

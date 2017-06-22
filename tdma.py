@@ -120,7 +120,7 @@ plt.style.use('ggplot')
 
 n_bars = len(vec_x)
 x_loc = np.arange(n_bars)
-bar_width = 5/n_bars
+bar_width = len(x_loc)/n_bars
 
 fig, ax = plt.subplots()
 bars_rects = ax.bar(x_loc, vec_x, bar_width, color=BI_COLOR)
