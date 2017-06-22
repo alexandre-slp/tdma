@@ -137,6 +137,6 @@ ax.set_xticks(x_loc)
 ax.set_xticklabels(x_labels)
 auto_label(bars_rects, max_abs)
 
-plt.axhline(color = 'k')
+plt.axhline(color='k')
 plt.show()
 
