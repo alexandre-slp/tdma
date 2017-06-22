@@ -27,6 +27,7 @@ import matplotlib.pyplot as plt
 
 BI_COLOR = ['#4286F4', '#6BC924']
 
+
 def load_abc_vectors(tdm):
     'Retorna os vetores a, b, c da matriz tridiagonal'
     a = []                                              # inicial o vetor a
@@ -85,58 +86,81 @@ def tdma_solver(tdm, d):
 
 
 def label_gen(x):
+    'Retorna os labels do eixo X intercalados verticalmente'
     labels = []
     for i in range(1, len(x) + 1):
-        labels.append('X' + str(i))
+        if i % 2 == 0:
+            labels.append('|\nX' + str(i))
+        else:
+            labels.append('X' + str(i))
     return labels
 
 
 def auto_label(bars, max):
-    """
-    Attach a text label above each bar displaying its height
-    """
+    'Escreve o valor da barra em cima da barra ou a baixo se ela tiver um valor negativo'
     for bar in bars:
         height = bar.get_height()
-        if height > 0:
+        if height > 0:                                                          # Caso a barra seja positiva
             ax.text(bar.get_x() + bar.get_width() / 2.0, height + 0.01 * max,
                     '{:.4f}'.format(height),
                     ha='center', va='bottom')
-        else:
+        else:                                                                   # Caso a barra seja negativa
             ax.text(bar.get_x() + bar.get_width() / 2.0, height - 0.045 * max,
                     '{:.4f}'.format(height),
                     ha='center', va='bottom')
 
-tdm_input = np.array([[2, 1, 0, 0, 0],
-                      [1, 2, 1, 0, 0],
-                      [0, 1, 2, 1, 0],
-                      [0, 0, 1, 2, 1],
-                      [0, 0, 0, 1, 2]])
+# Dados do exemplo:
+# tdm_input = np.array([[2, 1, 0, 0, 0],
+#                       [1, 2, 1, 0, 0],
+#                       [0, 1, 2, 1, 0],
+#                       [0, 0, 1, 2, 1],
+#                       [0, 0, 0, 1, 2]])
+# vec_d = [4, 4, 0, 0, 2]
 
-vec_d = [4, 4, 0, 0, 2]
+# Dados do trabalho:
+tdm_input = np.zeros((100, 100))
+for coluna in range(0, len(tdm_input)):
+    linha = coluna
+    tdm_input[linha, coluna] = coluna + 1 + (coluna + 1) * 0.001          # diagonal principal
+    if coluna == 0:                                                       # primeiro elto
+        tdm_input[linha + 1, coluna] = coluna + 2 + (coluna + 1) * 0.001  # elto abaixo da diagonal principal
+    if coluna == (len(tdm_input) - 1):                                    # ultimo elto
+        tdm_input[linha - 1, coluna] = coluna + 0 + (coluna + 1) * 0.001  # elto acima da diagonal principal
+    if coluna != 0 and coluna != (len(tdm_input) - 1):                    # demais eltos
+        tdm_input[linha + 1, coluna] = coluna + 2 + (coluna + 1) * 0.001  # elto abaixo da diagonal principal
+        tdm_input[linha - 1, coluna] = coluna + 0 + (coluna + 1) * 0.001  # elto acima da diagonal principal
+
+vec_d = range(1, len(tdm_input) + 1)
+# print tdm_input
+# print vec_d
 
 vec_x = tdma_solver(tdm_input, vec_d)
+for e in vec_x:
+    print e
 
+# Plot:
 plt.style.use('ggplot')
 
 n_bars = len(vec_x)
 x_loc = np.arange(n_bars)
 bar_width = len(x_loc)/n_bars
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(20, 10))
 bars_rects = ax.bar(x_loc, vec_x, bar_width, color=BI_COLOR)
 x_labels = label_gen(vec_x)
 
-y_min = min(vec_x) * 1.5
-y_max = max(vec_x) * 1.5
+y_min = min(vec_x) * 1.3
+y_max = max(vec_x) * 1.3
 max_abs = max(abs(y_min), abs(y_max))
 
 ax.set_ylim((y_min, y_max))
-ax.set_title('Solucao do sistema')
-ax.set_ylabel('Valores')
+ax.set_title('Solucao do sistema', fontsize=30)
+ax.set_ylabel('Valores', fontsize=20)
 ax.set_xticks(x_loc)
-ax.set_xticklabels(x_labels)
-auto_label(bars_rects, max_abs)
+ax.set_xticklabels(x_labels, fontsize=8)
+# auto_label(bars_rects, max_abs)
 
 plt.axhline(color='k')
-plt.show()
+# plt.show()
+plt.savefig('vec_x.png')
 
