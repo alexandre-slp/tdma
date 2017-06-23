@@ -28,53 +28,6 @@ import matplotlib.pyplot as plt
 BI_COLOR = ['#4286F4', '#6BC924']
 
 
-def thomas(A, b):
-    """
-    Return a list with the solution of linear system.
-
-    thomas(A, b)
-
-    INPUT:
-    * A: a matrix of coefficients
-    * b: a list, relative a vector of independent terms
-
-    return: a list with unknown vector 'x' of system A*x = b.
-
-    Author: Pedro Garcia [sawp@sawp.com.br]
-    see: http://www.sawp.com.br
-
-    License: Creative Commons
-             http://creativecommons.org/licenses/by-nc-nd/2.5/br/
-
-    Sep 2010
-    """
-    n = len(b)
-    terms = b[:]
-    x = []
-    d = []
-    upper = []
-    lower = []
-
-    for i in xrange(n):
-        d.append(A[i,i])
-        x.append(0.0)
-        upper.append(0.0)
-        lower.append(0.0)
-    for i in xrange(n - 1):
-        upper[i] = A[i, i + 1]
-        lower[i] = A[i + 1, i]
-
-    for i in xrange(1, n):
-        d[i] = d[i] - lower[i - 1] * upper[i - 1] / d[i - 1]
-        terms[i] = terms[i] - lower[i - 1] * terms[i - 1] / d[i - 1]
-    x[n - 1] = terms[n - 1] / d[n - 1]
-
-    # (regressive replacement)
-    for i in xrange(n - 2, -1, -1):
-        x[i] = (terms[i] - upper[i] * x[i + 1]) / d[i]
-    return x
-
-
 def load_abc_vectors(tdm):
     'Retorna os vetores a, b, c da matriz tridiagonal'
     a = []                                              # inicial o vetor a
@@ -100,9 +53,9 @@ def load_cl(a, b, c):
     cl = [0] * (len(c) - 1)                           # inicializa o vetor c linha
     for i in range(0, len(cl)):                       # percorre c linha
         if i == 0:                                    # primeiro elemento
-            cl[i] = float(c[i])/float(b[i])                  # converte para float e calcula o primeiro c linha
+            cl[i] = float(c[i])/b[i]                  # converte para float e calcula o primeiro c linha
         else:                                         # demais eltos
-            cl[i] = float(c[i])/(b[i] - (float(a[i]) * cl[i - 1]))  # calcula os demais eltos
+            cl[i] = c[i]/(b[i] - (a[i] * cl[i - 1]))  # calcula os demais eltos
     return cl
 
 
@@ -111,10 +64,10 @@ def load_dl(a, b, cl, d):
     dl = [0] * len(d)                                                        # inicializa o vetor d linha
     for i in range(0, len(dl)):                                              # percorre d linha
         if i == 0:                                                           # primeiro elemento
-            dl[i] = float(d[i])/float(b[i])                                         # converte para float e calcula
+            dl[i] = float(d[i])/b[i]                                         # converte para float e calcula
                                                                              # o primeiro d linha
         else:                                                                # demais eltos
-            dl[i] = (d[i] - (float(a[i]) * dl[i - 1]))/(float(b[i]) - (float(a[i]) * cl[i - 1]))  # calcula os demais eltos
+            dl[i] = (d[i] - (a[i] * dl[i - 1]))/(b[i] - (a[i] * cl[i - 1]))  # calcula os demais eltos
     return dl
 
 
@@ -126,9 +79,9 @@ def tdma_solver(tdm, d):
     dl = load_dl(a, b, cl, d)                            # pega o vetor d linha calculado
     for i in range(len(x) - 1, -1, -1):                  # percorre o vetor x de tras para frente
         if i == len(x) - 1:                              # ultimo elto
-            x[i] = round(dl[i], 4)                       # carrega o ultimo elto
+            x[i] = dl[i]                                 # carrega o ultimo elto
         else:                                            # demais eltos
-            x[i] = round(dl[i] - (cl[i] * x[i + 1]), 4)  # carrega demais eltos
+            x[i] = dl[i] - (cl[i] * x[i + 1])            # carrega demais eltos
     return x
 
 
@@ -143,35 +96,8 @@ def label_gen(x):
     return labels
 
 
-def auto_label(bars, max):
-    'Escreve o valor da barra em cima da barra ou a baixo se ela tiver um valor negativo'
-    for bar in bars:
-        height = bar.get_height()
-        if height > 0:                                                          # Caso a barra seja positiva
-            ax.text(bar.get_x() + bar.get_width() / 2.0, height + 0.01 * max,
-                    '{:.4f}'.format(height),
-                    ha='center', va='bottom')
-        else:                                                                   # Caso a barra seja negativa
-            ax.text(bar.get_x() + bar.get_width() / 2.0, height - 0.045 * max,
-                    '{:.4f}'.format(height),
-                    ha='center', va='bottom')
-
-# Dados do exemplo:
-# tdm_input = np.matrix('2 1 0 0 0;1 2 1 0 0;0 1 2 1 0;0 0 1 2 1;0 0 0 1 2')
-# vec_d = np.matrix([[4],
-#                    [4],
-#                    [0],
-#                    [0],
-#                    [2]])
-# Dados de teste:
-# tdm_input = np.matrix(np.arange(1, 17).reshape(4, 4))
-# vec_d = np.matrix(np.arange(1, len(tdm_input) + 1).reshape(len(tdm_input), 1))
-
 # Dados do trabalho:
 tdm_input = np.matrix(np.zeros((100, 100)))
-# for linha in range(0, len(tdm_input)):
-#     for coluna in range(0, len(tdm_input)):
-#         tdm_input[linha, coluna] = linha + 1 + (coluna + 1) * 0.001  # carrega a matriz com linha + coluna/1k
 for coluna in range(0, len(tdm_input)):
     linha = coluna
     tdm_input[linha, coluna] = coluna + 1 + (coluna + 1) * 0.001          # diagonal principal
@@ -182,20 +108,9 @@ for coluna in range(0, len(tdm_input)):
     if coluna != 0 and coluna != (len(tdm_input) - 1):                    # demais eltos
         tdm_input[linha + 1, coluna] = coluna + 2 + (coluna + 1) * 0.001  # elto abaixo da diagonal principal
         tdm_input[linha - 1, coluna] = coluna + 0 + (coluna + 1) * 0.001  # elto acima da diagonal principal
+
 vec_d = np.matrix(np.arange(1, len(tdm_input) + 1).reshape(len(tdm_input), 1))
-
-# np.set_printoptions(threshold='nan', linewidth=5000)
-# print 'input:'
-# print tdm_input
-# print 'vec_d:'
-# print vec_d
-
-vec_x = thomas(tdm_input, vec_d)
-# vec_x = tdma_solver(tdm_input, vec_d)
-# vec_x = np.dot(tdm_input.getI(), vec_d)
-# for x, x2 in zip(vec_x, vec_x2):
-#     if x != x2:
-#         print 'dif {} de {}'.format(x, x2)
+vec_x = tdma_solver(tdm_input, vec_d)
 
 # Plot:
 plt.style.use('ggplot')
@@ -217,9 +132,8 @@ ax.set_title('Solucao do sistema', fontsize=30)
 ax.set_ylabel('Valores', fontsize=20)
 ax.set_xticks(x_loc)
 ax.set_xticklabels(x_labels, fontsize=8)
-# auto_label(bars_rects, max_abs)
 
 plt.axhline(color='k')
 # plt.show()
-plt.savefig('vec_x7.png')
+plt.savefig('vec_x.png')
 
