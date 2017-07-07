@@ -1,0 +1,163 @@
+<html>
+<head>
+<title>tdma.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(204,120,50); font-weight: bold; }
+.s3 { color: rgb(165,194,97); }
+.s4 { color: rgb(204,120,50); }
+.s5 { color: rgb(98,151,85); font-style: italic; }
+.s6 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+tdma.py</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0"># TriDiagonal Matrix Algorithm (TDMA) or Thomas Algorithm.</span><span class="s1"> 
+</span><span class="s0"># Caso particular do algoritmo de eleiminacao Gaussiana.</span><span class="s1"> 
+</span><span class="s0"># Algoritmo para resolver sistema de equacoes de primeira ordem</span><span class="s1"> 
+</span><span class="s0"># que resultam em matrizes tridiagonais.</span><span class="s1"> 
+</span><span class="s0">#</span><span class="s1"> 
+</span><span class="s0"># Exemplo para um sistema de 5 equacoes e 5 incognitas(xN):</span><span class="s1"> 
+</span><span class="s0">#</span><span class="s1"> 
+</span><span class="s0"># Sistema de equacoes:</span><span class="s1"> 
+</span><span class="s0">#</span><span class="s1"> 
+</span><span class="s0"># B(x1) + C(x2) + 0(x3) + 0(x4) + 0(x5) = d1</span><span class="s1"> 
+</span><span class="s0"># A(x1) + B(x2) + C(x3) + 0(x4) + 0(x5) = d2</span><span class="s1"> 
+</span><span class="s0"># 0(x1) + A(x2) + B(x3) + C(x4) + 0(x5) = d3</span><span class="s1"> 
+</span><span class="s0"># 0(x1) + 0(x2) + A(x3) + B(x4) + C(x5) = d4</span><span class="s1"> 
+</span><span class="s0"># 0(x1) + 0(x2) + 0(x3) + A(x4) + B(x5) = d5</span><span class="s1"> 
+</span><span class="s0">#</span><span class="s1"> 
+</span><span class="s0"># Sistema na forma matricial: A . X = D</span><span class="s1"> 
+</span><span class="s0">#</span><span class="s1"> 
+</span><span class="s0"># [ B.  C.  0.  0.  0.]   [x1]    [d1]</span><span class="s1"> 
+</span><span class="s0"># [ A.  B.  C.  0.  0.]   [x2]    [d2]</span><span class="s1"> 
+</span><span class="s0"># [ 0.  A.  B.  C.  0.] x [x3] =  [d3]</span><span class="s1"> 
+</span><span class="s0"># [ 0.  0.  A.  B.  C.]   [x4]    [d4]</span><span class="s1"> 
+</span><span class="s0"># [ 0.  0.  0.  A.  B.]   [x5]    [d5]</span><span class="s1"> 
+</span><span class="s0">#</span><span class="s1"> 
+ 
+</span><span class="s0"># importa as bibliotecas necessarias:</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">numpy </span><span class="s2">as </span><span class="s1">np 
+</span><span class="s2">import </span><span class="s1">matplotlib.pyplot </span><span class="s2">as </span><span class="s1">plt 
+ 
+BI_COLOR = [</span><span class="s3">'#4286F4'</span><span class="s4">, </span><span class="s3">'#6BC924'</span><span class="s1">]  </span><span class="s0"># define a cor das barras no grafico</span><span class="s1"> 
+ 
+ 
+</span><span class="s2">def </span><span class="s1">load_abc_vectors(tdm): 
+    </span><span class="s5">'Retorna os vetores a, b, c da matriz tridiagonal'</span><span class="s1"> 
+    a = []                                              </span><span class="s0"># inicial o vetor a</span><span class="s1"> 
+    b = []                                              </span><span class="s0"># inicial o vetor b</span><span class="s1"> 
+    c = []                                              </span><span class="s0"># inicial o vetor c</span><span class="s1"> 
+    </span><span class="s2">for </span><span class="s1">coluna </span><span class="s2">in </span><span class="s1">range(</span><span class="s6">0</span><span class="s4">, </span><span class="s1">len(tdm)):                   </span><span class="s0"># carrega os vetores a, b, c percorrendo a matriz</span><span class="s1"> 
+        linha = coluna                                  </span><span class="s0"># percore pela diagonal principal</span><span class="s1"> 
+        b.append(float(tdm[linha</span><span class="s4">, </span><span class="s1">coluna]))             </span><span class="s0"># carrega o vetor b convertido para float</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">coluna == </span><span class="s6">0</span><span class="s1">:                                 </span><span class="s0"># primeiro elto</span><span class="s1"> 
+            a.append(</span><span class="s6">0.0</span><span class="s1">)                               </span><span class="s0"># primeiro elto do vetor a eh 0</span><span class="s1"> 
+            a.append(float(tdm[linha + </span><span class="s6">1</span><span class="s4">, </span><span class="s1">coluna]))     </span><span class="s0"># pega o elto abaixo da diagonal principal em float</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">coluna == (len(tdm) - </span><span class="s6">1</span><span class="s1">):                    </span><span class="s0"># ultimo elto</span><span class="s1"> 
+            c.append(float(tdm[linha - </span><span class="s6">1</span><span class="s4">, </span><span class="s1">coluna]))     </span><span class="s0"># pega o elto acima da diagonal principal em float</span><span class="s1"> 
+            c.append(</span><span class="s6">0.0</span><span class="s1">)                               </span><span class="s0"># ultimo elto do vetor c eh 0</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">coluna != </span><span class="s6">0 </span><span class="s2">and </span><span class="s1">coluna != (len(tdm) - </span><span class="s6">1</span><span class="s1">):    </span><span class="s0"># demais eltos</span><span class="s1"> 
+            a.append(float(tdm[linha + </span><span class="s6">1</span><span class="s4">, </span><span class="s1">coluna]))     </span><span class="s0"># pega elto abaixo da diagonal principal em float</span><span class="s1"> 
+            c.append(float(tdm[linha - </span><span class="s6">1</span><span class="s4">, </span><span class="s1">coluna]))     </span><span class="s0"># pega o elto acima da diagonal principal em float</span><span class="s1"> 
+    </span><span class="s2">return </span><span class="s1">a</span><span class="s4">, </span><span class="s1">b</span><span class="s4">, </span><span class="s1">c 
+ 
+ 
+</span><span class="s2">def </span><span class="s1">load_cl(a</span><span class="s4">, </span><span class="s1">b</span><span class="s4">, </span><span class="s1">c): 
+    </span><span class="s5">'Retorna o vetor c linha a partir dos vetores a, b, c'</span><span class="s1"> 
+    cl = [</span><span class="s6">0</span><span class="s1">] * (len(c) - </span><span class="s6">1</span><span class="s1">)                           </span><span class="s0"># inicializa o vetor c linha</span><span class="s1"> 
+    </span><span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range(</span><span class="s6">0</span><span class="s4">, </span><span class="s1">len(cl)):                       </span><span class="s0"># percorre c linha</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">i == </span><span class="s6">0</span><span class="s1">:                                    </span><span class="s0"># primeiro elemento</span><span class="s1"> 
+            cl[i] = c[i]/b[i]                         </span><span class="s0"># calcula o primeiro c linha</span><span class="s1"> 
+        </span><span class="s2">else</span><span class="s1">:                                         </span><span class="s0"># demais eltos</span><span class="s1"> 
+            cl[i] = c[i]/(b[i] - (a[i] * cl[i - </span><span class="s6">1</span><span class="s1">]))  </span><span class="s0"># calcula os demais eltos</span><span class="s1"> 
+    </span><span class="s2">return </span><span class="s1">cl 
+ 
+ 
+</span><span class="s2">def </span><span class="s1">load_dl(a</span><span class="s4">, </span><span class="s1">b</span><span class="s4">, </span><span class="s1">cl</span><span class="s4">, </span><span class="s1">d): 
+    </span><span class="s5">'Retorna o vetor d linha a partir dos vetores a, b, cl, d'</span><span class="s1"> 
+    dl = [</span><span class="s6">0</span><span class="s1">] * len(d)                                                               </span><span class="s0"># inicializa o vetor d linha</span><span class="s1"> 
+    </span><span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range(</span><span class="s6">0</span><span class="s4">, </span><span class="s1">len(dl)):                                                     </span><span class="s0"># percorre d linha</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">i == </span><span class="s6">0</span><span class="s1">:                                                                  </span><span class="s0"># primeiro elemento</span><span class="s1"> 
+            dl[i] = float(d[i])/b[i]                                                </span><span class="s0"># calcula o primeiro d linha</span><span class="s1"> 
+        </span><span class="s2">else</span><span class="s1">:                                                                       </span><span class="s0"># demais eltos</span><span class="s1"> 
+            dl[i] = (float(d[i]) - (a[i] * dl[i - </span><span class="s6">1</span><span class="s1">]))/(b[i] - (a[i] * cl[i - </span><span class="s6">1</span><span class="s1">]))  </span><span class="s0"># calcula os demais eltos</span><span class="s1"> 
+    </span><span class="s2">return </span><span class="s1">dl 
+ 
+ 
+</span><span class="s2">def </span><span class="s1">tdma_solver(tdm</span><span class="s4">, </span><span class="s1">d): 
+    </span><span class="s5">'Retorna o vetor x com as incognitas'</span><span class="s1"> 
+    x = [</span><span class="s6">0</span><span class="s1">] * len(d)                           </span><span class="s0"># inicialixa o vetor x</span><span class="s1"> 
+    a</span><span class="s4">, </span><span class="s1">b</span><span class="s4">, </span><span class="s1">c = load_abc_vectors(tdm)            </span><span class="s0"># pega os valores de a, b, c, da matriz tdm de entrada</span><span class="s1"> 
+    cl = load_cl(a</span><span class="s4">, </span><span class="s1">b</span><span class="s4">, </span><span class="s1">c)                      </span><span class="s0"># pega o vetor c linha calculado</span><span class="s1"> 
+    dl = load_dl(a</span><span class="s4">, </span><span class="s1">b</span><span class="s4">, </span><span class="s1">cl</span><span class="s4">, </span><span class="s1">d)                  </span><span class="s0"># pega o vetor d linha calculado</span><span class="s1"> 
+    </span><span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range(len(x) - </span><span class="s6">1</span><span class="s4">, </span><span class="s1">-</span><span class="s6">1</span><span class="s4">, </span><span class="s1">-</span><span class="s6">1</span><span class="s1">):        </span><span class="s0"># percorre o vetor x de tras para frente</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">i == len(x) - </span><span class="s6">1</span><span class="s1">:                    </span><span class="s0"># ultimo elto</span><span class="s1"> 
+            x[i] = dl[i]                       </span><span class="s0"># carrega o ultimo elto</span><span class="s1"> 
+        </span><span class="s2">else</span><span class="s1">:                                  </span><span class="s0"># demais eltos</span><span class="s1"> 
+            x[i] = dl[i] - (cl[i] * x[i + </span><span class="s6">1</span><span class="s1">])  </span><span class="s0"># carrega demais eltos</span><span class="s1"> 
+    </span><span class="s2">return </span><span class="s1">x 
+ 
+ 
+</span><span class="s2">def </span><span class="s1">label_gen(x): 
+    </span><span class="s5">'Retorna os labels do eixo X intercalados verticalmente'</span><span class="s1"> 
+    labels = []                             </span><span class="s0"># inicialixa o vetor de labels</span><span class="s1"> 
+    </span><span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range(</span><span class="s6">1</span><span class="s4">, </span><span class="s1">len(x) + </span><span class="s6">1</span><span class="s1">):          </span><span class="s0"># percorre o vetor x</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">i % </span><span class="s6">2 </span><span class="s1">== </span><span class="s6">0</span><span class="s1">:                      </span><span class="s0"># se o indice do vetor x for par</span><span class="s1"> 
+            labels.append(</span><span class="s3">'|</span><span class="s4">\n</span><span class="s3">X' </span><span class="s1">+ str(i))  </span><span class="s0"># escreve o label mais em baixo</span><span class="s1"> 
+        </span><span class="s2">else</span><span class="s1">:                               </span><span class="s0"># se o indice do vetor x for impar</span><span class="s1"> 
+            labels.append(</span><span class="s3">'X' </span><span class="s1">+ str(i))     </span><span class="s0"># escreve o label na mesma linha</span><span class="s1"> 
+    </span><span class="s2">return </span><span class="s1">labels 
+ 
+ 
+</span><span class="s0"># Dados do trabalho:</span><span class="s1"> 
+tdm_input = np.matrix(np.zeros((</span><span class="s6">100</span><span class="s4">, </span><span class="s6">100</span><span class="s1">)))                               </span><span class="s0"># inicializa a matriz tridiagonal de entrada</span><span class="s1"> 
+</span><span class="s2">for </span><span class="s1">coluna </span><span class="s2">in </span><span class="s1">range(</span><span class="s6">0</span><span class="s4">, </span><span class="s1">len(tdm_input)):                                   </span><span class="s0"># percorre a matriz</span><span class="s1"> 
+    linha = coluna                                                        </span><span class="s0"># diagonal principal</span><span class="s1"> 
+    tdm_input[linha</span><span class="s4">, </span><span class="s1">coluna] = coluna + </span><span class="s6">1 </span><span class="s1">+ (coluna + </span><span class="s6">1</span><span class="s1">) * </span><span class="s6">0.001          </span><span class="s0"># carrega diagonal principal</span><span class="s1"> 
+    </span><span class="s2">if </span><span class="s1">coluna == </span><span class="s6">0</span><span class="s1">:                                                       </span><span class="s0"># primeiro elto</span><span class="s1"> 
+        tdm_input[linha + </span><span class="s6">1</span><span class="s4">, </span><span class="s1">coluna] = coluna + </span><span class="s6">2 </span><span class="s1">+ (coluna + </span><span class="s6">1</span><span class="s1">) * </span><span class="s6">0.001  </span><span class="s0"># elto abaixo da diagonal principal</span><span class="s1"> 
+    </span><span class="s2">if </span><span class="s1">coluna == (len(tdm_input) - </span><span class="s6">1</span><span class="s1">):                                    </span><span class="s0"># ultimo elto</span><span class="s1"> 
+        tdm_input[linha - </span><span class="s6">1</span><span class="s4">, </span><span class="s1">coluna] = coluna + </span><span class="s6">0 </span><span class="s1">+ (coluna + </span><span class="s6">1</span><span class="s1">) * </span><span class="s6">0.001  </span><span class="s0"># elto acima da diagonal principal</span><span class="s1"> 
+    </span><span class="s2">if </span><span class="s1">coluna != </span><span class="s6">0 </span><span class="s2">and </span><span class="s1">coluna != (len(tdm_input) - </span><span class="s6">1</span><span class="s1">):                    </span><span class="s0"># demais eltos</span><span class="s1"> 
+        tdm_input[linha + </span><span class="s6">1</span><span class="s4">, </span><span class="s1">coluna] = coluna + </span><span class="s6">2 </span><span class="s1">+ (coluna + </span><span class="s6">1</span><span class="s1">) * </span><span class="s6">0.001  </span><span class="s0"># carrega elto abaixo da diagonal principal</span><span class="s1"> 
+        tdm_input[linha - </span><span class="s6">1</span><span class="s4">, </span><span class="s1">coluna] = coluna + </span><span class="s6">0 </span><span class="s1">+ (coluna + </span><span class="s6">1</span><span class="s1">) * </span><span class="s6">0.001  </span><span class="s0"># carrega elto acima da diagonal principal</span><span class="s1"> 
+ 
+vec_d = np.matrix(np.arange(</span><span class="s6">1</span><span class="s4">, </span><span class="s1">len(tdm_input) + </span><span class="s6">1</span><span class="s1">).reshape(len(tdm_input)</span><span class="s4">, </span><span class="s6">1</span><span class="s1">))  </span><span class="s0"># carrega vetor d</span><span class="s1"> 
+ 
+vec_x = tdma_solver(tdm_input</span><span class="s4">, </span><span class="s1">vec_d)  </span><span class="s0"># calcula o vetor x atraves do algoritmo de Thomas</span><span class="s1"> 
+ 
+</span><span class="s0"># Plot:</span><span class="s1"> 
+plt.style.use(</span><span class="s3">'ggplot'</span><span class="s1">)        </span><span class="s0"># estilo do grafico</span><span class="s1"> 
+n_bars = len(vec_x)            </span><span class="s0"># quantidade de barras</span><span class="s1"> 
+x_loc = np.arange(n_bars)      </span><span class="s0"># divide igualmente o eixo x pela quantidade de barras</span><span class="s1"> 
+bar_width = len(x_loc)/n_bars  </span><span class="s0"># defino a largura das barras para q se toquem</span><span class="s1"> 
+ 
+fig</span><span class="s4">, </span><span class="s1">ax = plt.subplots(figsize=(</span><span class="s6">20</span><span class="s4">, </span><span class="s6">10</span><span class="s1">)</span><span class="s4">, </span><span class="s1">dpi=</span><span class="s6">600</span><span class="s1">)             </span><span class="s0"># crio uma figura e os eixos do grafico</span><span class="s1"> 
+bars_rects = ax.bar(x_loc</span><span class="s4">, </span><span class="s1">vec_x</span><span class="s4">, </span><span class="s1">bar_width</span><span class="s4">, </span><span class="s1">color=BI_COLOR)  </span><span class="s0"># ploto o grafico</span><span class="s1"> 
+x_labels = label_gen(vec_x)                                   </span><span class="s0"># gero os labels do eixo x</span><span class="s1"> 
+ 
+y_min = min(vec_x) * </span><span class="s6">1.3  </span><span class="s0"># ajusto o tamanho do eixo y</span><span class="s1"> 
+y_max = max(vec_x) * </span><span class="s6">1.3  </span><span class="s0"># ajusto o tamanho do eixo y</span><span class="s1"> 
+ 
+ax.set_ylim((y_min</span><span class="s4">, </span><span class="s1">y_max))                      </span><span class="s0"># defino os limites do eixo y</span><span class="s1"> 
+ax.set_title(</span><span class="s3">'Solucao do sistema'</span><span class="s4">, </span><span class="s1">fontsize=</span><span class="s6">30</span><span class="s1">)  </span><span class="s0"># titulo do grafico</span><span class="s1"> 
+ax.set_ylabel(</span><span class="s3">'Valores'</span><span class="s4">, </span><span class="s1">fontsize=</span><span class="s6">20</span><span class="s1">)            </span><span class="s0"># titulo do eixo y</span><span class="s1"> 
+ax.set_xticks(x_loc)                             </span><span class="s0"># defino posicao que serao inseridos os labels do eixo x</span><span class="s1"> 
+ax.set_xticklabels(x_labels</span><span class="s4">, </span><span class="s1">fontsize=</span><span class="s6">8</span><span class="s1">)         </span><span class="s0"># defino quais sao os labels</span><span class="s1"> 
+ 
+plt.axhline(color=</span><span class="s3">'k'</span><span class="s1">)      </span><span class="s0"># ploto uma linha preta no 0</span><span class="s1"> 
+</span><span class="s0"># plt.show()                  # exibo o grafico na tela</span><span class="s1"> 
+plt.savefig(</span><span class="s3">'vec_x.png'</span><span class="s1">)    </span><span class="s0"># salvo o grafico</span><span class="s1"> 
+ 
+</span></pre>
+</body>
+</html>

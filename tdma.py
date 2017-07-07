@@ -119,7 +119,7 @@ n_bars = len(vec_x)            # quantidade de barras
 x_loc = np.arange(n_bars)      # divide igualmente o eixo x pela quantidade de barras
 bar_width = len(x_loc)/n_bars  # defino a largura das barras para q se toquem
 
-fig, ax = plt.subplots(figsize=(20, 10), dpi=600)             # crio uma figura e os eixos do grafico
+fig, ax = plt.subplots(figsize=(20, 10), dpi=100)             # crio uma figura e os eixos do grafico
 bars_rects = ax.bar(x_loc, vec_x, bar_width, color=BI_COLOR)  # ploto o grafico
 x_labels = label_gen(vec_x)                                   # gero os labels do eixo x
 
@@ -133,6 +133,6 @@ ax.set_xticks(x_loc)                             # defino posicao que serao inse
 ax.set_xticklabels(x_labels, fontsize=8)         # defino quais sao os labels
 
 plt.axhline(color='k')      # ploto uma linha preta no 0
-# plt.show()                  # exibo o grafico na tela
-plt.savefig('vec_x.png')    # salvo o grafico
+plt.show()                  # exibo o grafico na tela
+# plt.savefig('vec_x.png')    # salvo o grafico
 
